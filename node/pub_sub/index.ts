@@ -6,6 +6,33 @@
 import { mqtt, auth, http, io, iot } from 'aws-iot-device-sdk-v2';
 import { TextDecoder } from 'util';
 
+// AWS
+// import * as AWS from 'aws-sdk';
+// Piñata
+// import * as Pinata from 'pinata-sdk';
+// Cardano CLI 
+// const CardanocliJs = require("./modules/index.js");
+
+// import CardanocliJs from "./modules/CardanocliJs.js";
+
+import * as SomeModule from "./SomeModule";
+
+
+// UUID
+// import { v4 as uuidv4 } from 'uuid';
+// Global variables from credential.json and config.json
+// const credentials = require('./config/credentials.json')
+// const credentialsAWS = credentials['aws_credentials']
+// const credentialsPinata = credentials['pinata_credentials']
+const config = require('./config/config.json')
+const configCardanoCli = config['cardano_cli']
+// const configAWSIoTDevice = config['aws_iot_device']
+// const configLocalFiles = config['local_files']
+
+const os = require("os");
+const path = require("path");
+
+
 type Args = { [index: string]: any };
 
 const yargs = require('yargs');
@@ -181,4 +208,23 @@ async function main(argv: Args) {
 
     // Allow node to die if the promise above resolved
     clearTimeout(timer);
+
+    
+
+    const dir = path.join(os.homedir(), configCardanoCli.cardano_node);
+    const shelleyPath = path.join(
+        os.homedir(),
+        configCardanoCli.cardano_node,
+        configCardanoCli.testnet_shelley_genesis_json
+    );
+
+    const cardanocliJs = new CardanocliJs({
+    network: configCardanoCli.network,
+    dir: dir,
+    shelleyGenesisPath: shelleyPath,
+    socketPath: configCardanoCli.socketPath,
+    });
+
+    cardanocliJs.wallet('W0107').balance();
+
 }
