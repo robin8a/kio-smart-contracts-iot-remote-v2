@@ -106,3 +106,6 @@ node/pub_sub/certs/kio-smart-contracts-iot-device.cert.pem
 node/pub_sub/certs/kio-smart-contracts-iot-device.private.key
 node/pub_sub/certs/kio-smart-contracts-iot-device.public.key
 node/pub_sub/certs/root-CA.crt
+
+certs
+node/pub_sub/start.bat
