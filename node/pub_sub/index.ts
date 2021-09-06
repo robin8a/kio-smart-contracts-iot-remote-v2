@@ -13,9 +13,9 @@ import { TextDecoder } from 'util';
 // Cardano CLI 
 // const CardanocliJs = require("./modules/index.js");
 
-// import CardanocliJs from "./modules/CardanocliJs.js";
+import CardanocliJs from "./modules/CardanocliJs.js";
 
-import * as SomeModule from "./SomeModule";
+// import * as SomeModule from "./SomeModule";
 
 
 // UUID
