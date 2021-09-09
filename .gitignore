@@ -109,3 +109,4 @@ node/pub_sub/certs/root-CA.crt
 
 certs
 node/pub_sub/start.bat
+src/config/credentials.json

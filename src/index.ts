@@ -5,6 +5,7 @@
 
 import { mqtt, auth, http, io, iot } from 'aws-iot-device-sdk-v2';
 import { TextDecoder } from 'util';
+import { ZipCodeValidator } from "./modules/ZipCodeValidator";
 
 // AWS
 // import * as AWS from 'aws-sdk';
@@ -13,7 +14,7 @@ import { TextDecoder } from 'util';
 // Cardano CLI 
 // const CardanocliJs = require("./modules/index.js");
 
-import CardanocliJs from "./modules/CardanocliJs.js";
+// import CardanocliJs from "CardanocliJs.js";
 
 // import * as SomeModule from "./SomeModule";
 
@@ -24,13 +25,13 @@ import CardanocliJs from "./modules/CardanocliJs.js";
 // const credentials = require('./config/credentials.json')
 // const credentialsAWS = credentials['aws_credentials']
 // const credentialsPinata = credentials['pinata_credentials']
-const config = require('./config/config.json')
-const configCardanoCli = config['cardano_cli']
+// const config = require('./config/config.json')
+// const configCardanoCli = config['cardano_cli']
 // const configAWSIoTDevice = config['aws_iot_device']
 // const configLocalFiles = config['local_files']
 
-const os = require("os");
-const path = require("path");
+// const os = require("os");
+// const path = require("path");
 
 
 type Args = { [index: string]: any };
@@ -211,20 +212,24 @@ async function main(argv: Args) {
 
     
 
-    const dir = path.join(os.homedir(), configCardanoCli.cardano_node);
-    const shelleyPath = path.join(
-        os.homedir(),
-        configCardanoCli.cardano_node,
-        configCardanoCli.testnet_shelley_genesis_json
-    );
+    // const dir = path.join(os.homedir(), configCardanoCli.cardano_node);
+    // const shelleyPath = path.join(
+    //     os.homedir(),
+    //     configCardanoCli.cardano_node,
+    //     configCardanoCli.testnet_shelley_genesis_json
+    // );
 
-    const cardanocliJs = new CardanocliJs({
-    network: configCardanoCli.network,
-    dir: dir,
-    shelleyGenesisPath: shelleyPath,
-    socketPath: configCardanoCli.socketPath,
-    });
+    // const cardanocliJs = new CardanocliJs({
+    // network: configCardanoCli.network,
+    // dir: dir,
+    // shelleyGenesisPath: shelleyPath,
+    // socketPath: configCardanoCli.socketPath,
+    // });
 
-    cardanocliJs.wallet('W0107').balance();
+    // cardanocliJs.wallet('W0107').balance();
 
+    let myValidator = new ZipCodeValidator();
+    if (myValidator.isAcceptable('33140')) {
+        console.log('Zipcode is valid')
+    }
 }
