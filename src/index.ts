@@ -8,8 +8,8 @@ import { TextDecoder } from 'util';
 import { ZipCodeValidator } from "./modules/ZipCodeValidator";
 import { CardanoCommads } from "./modules/CardanoCommands";
 
-const { WalletServer } = require('cardano-wallet-js');
-let walletServer = WalletServer.init('http://{your-server-host}:{port}/v2');
+// const { WalletServer } = require('cardano-wallet-js');
+// let walletServer = WalletServer.init('http://{your-server-host}:{port}/v2');
 
 // AWS
 // import * as AWS from 'aws-sdk';
@@ -237,8 +237,8 @@ async function main(argv: Args) {
         console.log('Zipcode is valid')
     }
 
-    let clock = await walletServer.getNetworkClock()
-    console.log(clock)
+    // let clock = await walletServer.getNetworkClock()
+    // console.log(clock)
     
     let cardanoCommands = new CardanoCommads()
     debugger
