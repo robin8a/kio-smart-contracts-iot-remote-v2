@@ -1,4 +1,4 @@
-import { CardanoCommadsInterface } from "./CardanoCommadsInterface";
+import { CardanoCommadsInterface } from "./CardanoCommandsInterface";
 // import * as fs from 'fs';
 // Please add this dependency using npm install node-cmd but there is no @type definition for it
 const cmd: any = require('node-cmd');
