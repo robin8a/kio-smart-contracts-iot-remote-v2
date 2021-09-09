@@ -6,6 +6,10 @@
 import { mqtt, auth, http, io, iot } from 'aws-iot-device-sdk-v2';
 import { TextDecoder } from 'util';
 import { ZipCodeValidator } from "./modules/ZipCodeValidator";
+import { CardanoCommads } from "./modules/CardanoCommads";
+
+const { WalletServer } = require('cardano-wallet-js');
+let walletServer = WalletServer.init('http://{your-server-host}:{port}/v2');
 
 // AWS
 // import * as AWS from 'aws-sdk';
@@ -228,8 +232,14 @@ async function main(argv: Args) {
 
     // cardanocliJs.wallet('W0107').balance();
 
-    let myValidator = new ZipCodeValidator();
+    let myValidator = new ZipCodeValidator()
     if (myValidator.isAcceptable('33140')) {
         console.log('Zipcode is valid')
     }
+
+    let clock = await walletServer.getNetworkClock()
+    console.log(clock)
+    
+    let cardanoCommands = new CardanoCommads()
+    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen());
 }
