@@ -9,7 +9,7 @@ import { ZipCodeValidator } from "./modules/ZipCodeValidator";
 import { CardanoCommads } from "./modules/CardanoCommands";
 
 const { WalletServer } = require('cardano-wallet-js');
-let walletServer = WalletServer.init('http://144.91.83.151:8090/v2');
+let walletServer = WalletServer.init('http://localhost:8090/v2');
 
 // AWS
 // import * as AWS from 'aws-sdk';
