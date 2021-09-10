@@ -22,7 +22,6 @@ export class CardanoCommads implements CardanoCommadsInterface {
             "--verification-key-file", "/home/luisr/receive-ada-sample/keys/payment.vkey",
             "--signing-key-file", "/home/luisr/receive-ada-sample/keys/payment.skey"
         ].join(" "));
-        debugger
         return rawkeygen
     }
 }
