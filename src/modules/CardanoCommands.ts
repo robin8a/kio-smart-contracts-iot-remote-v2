@@ -20,7 +20,7 @@ export class CardanoCommads implements CardanoCommadsInterface {
             const rawkeygen: any = cmd.runSync([
                 CARDANO_CLI,
                 "address", "key-gen",
-                "--verification -key-file", CARDANO_KEYS_PATH+"payment.vkey",
+                "--verification-key-file", CARDANO_KEYS_PATH+"payment.vkey",
                 "--signing-key-file", CARDANO_KEYS_PATH+"payment.skey"
             ].join(" "));
             return rawkeygen
