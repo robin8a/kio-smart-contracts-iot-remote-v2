@@ -14,14 +14,19 @@ const cmd: any = require('node-cmd');
 // const TOTAL_EXPECTED_LOVELACE: number = 1000000;
 
 export class CardanoCommads implements CardanoCommadsInterface {
-
+    
     keyGen(CARDANO_CLI: string, CARDANO_KEYS_PATH: string) {
-        const rawkeygen: any = cmd.runSync([
-            CARDANO_CLI,
-            "address", "key-gen",
-            "--verification-key-file", CARDANO_KEYS_PATH+"payment.vkey",
-            "--signing-key-file", CARDANO_KEYS_PATH+"payment.skey"
-        ].join(" "));
-        return rawkeygen
+        try {
+            const rawkeygen: any = cmd.runSync([
+                CARDANO_CLI,
+                "address", "key-gen",
+                "--verification -key-file", CARDANO_KEYS_PATH+"payment.vkey",
+                "--signing-key-file", CARDANO_KEYS_PATH+"payment.skey"
+            ].join(" "));
+            return rawkeygen
+        } catch (error) {
+            return error
+        }
+        
     }
 }
