@@ -11,6 +11,20 @@ import { CardanoCommads } from "./modules/CardanoCommands";
 const { WalletServer } = require('cardano-wallet-js');
 let walletServer = WalletServer.init('http://localhost:8090/v2');
 
+import { configure, getLogger } from "log4js";
+// configure("./filename");
+const logger = getLogger();
+
+
+configure({
+    appenders: { cheese: { type: "file", filename: "cheese.log" } },
+    categories: { default: { appenders: ["cheese"], level: "error" } }
+});
+
+logger.level = "debug";
+logger.debug("Some debug messages");
+
+
 // AWS
 // import * as AWS from 'aws-sdk';
 // Piñata
@@ -240,8 +254,12 @@ async function main(argv: Args) {
         console.log('Zipcode is valid')
     }
 
-    let clock = await walletServer.getNetworkClock()
-    console.log('Clock: ',clock)
+    try {
+        let clock = await walletServer.getNetworkClock()    
+        console.log('Clock: ',clock)
+    } catch (error) {
+        console.log('error: ', error)
+    }
     
     let cardanoCommands = new CardanoCommads()
     console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2.CARDANO_CLI,configCardanoCliV2.CARDANO_KEYS_PATH));
