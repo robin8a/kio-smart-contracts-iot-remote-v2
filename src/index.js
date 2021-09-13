@@ -39,13 +39,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var aws_iot_device_sdk_v2_1 = require("aws-iot-device-sdk-v2");
 var util_1 = require("util");
 var ZipCodeValidator_1 = require("./modules/ZipCodeValidator");
-var CardanoCommands_1 = require("./modules/CardanoCommands");
+// import { CardanoCommads } from "./modules/CardanoCommands";
 var WalletServer = require('cardano-wallet-js').WalletServer;
-var walletServer = WalletServer.init('http://{your-server-host}:{port}/v2');
+var walletServer = WalletServer.init('http://localhost:8090/v2');
 var yargs = require('yargs');
 yargs.command('*', false, function (yargs) {
     yargs
@@ -84,11 +84,11 @@ yargs.command('*', false, function (yargs) {
         alias: 't',
         description: 'STRING: Targeted topic',
         type: 'string',
-        "default": 'test/topic'
+        default: 'test/topic'
     })
         .option('count', {
         alias: 'n',
-        "default": 10,
+        default: 10,
         description: 'Number of messages to publish/receive before exiting. ' +
             'Specify 0 to run forever.',
         type: 'number',
@@ -96,7 +96,7 @@ yargs.command('*', false, function (yargs) {
     })
         .option('use_websocket', {
         alias: 'W',
-        "default": false,
+        default: false,
         description: 'To use a websocket instead of raw mqtt. If you ' +
             'specify this option you must specify a region for signing, you can also enable proxy mode.',
         type: 'boolean',
@@ -104,7 +104,7 @@ yargs.command('*', false, function (yargs) {
     })
         .option('signing_region', {
         alias: 's',
-        "default": 'us-east-1',
+        default: 'us-east-1',
         description: 'If you specify --use_websocket, this ' +
             'is the region that will be used for computing the Sigv4 signature',
         type: 'string',
@@ -119,7 +119,7 @@ yargs.command('*', false, function (yargs) {
     })
         .option('proxy_port', {
         alias: 'P',
-        "default": 8080,
+        default: 8080,
         description: 'Port for proxy to connect to.',
         type: 'number',
         required: false
@@ -128,13 +128,13 @@ yargs.command('*', false, function (yargs) {
         alias: 'M',
         description: 'Message to publish.',
         type: 'string',
-        "default": 'Hello world!'
+        default: 'Hello world!'
     })
         .option('verbosity', {
         alias: 'v',
         description: 'BOOLEAN: Verbose output',
         type: 'string',
-        "default": 'none',
+        default: 'none',
         choices: ['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'none']
     })
         .help()
@@ -175,7 +175,7 @@ function execute_session(connection, argv) {
                                         return __generator(this, function (_a) {
                                             msg = {
                                                 message: argv.message,
-                                                sequence: op_idx + 1
+                                                sequence: op_idx + 1,
                                             };
                                             json = JSON.stringify(msg);
                                             connection.publish(argv.topic, json, aws_iot_device_sdk_v2_1.mqtt.QoS.AtLeastOnce);
@@ -201,7 +201,7 @@ function execute_session(connection, argv) {
 }
 function main(argv) {
     return __awaiter(this, void 0, void 0, function () {
-        var level, client_bootstrap, config_builder, timer, config, client, connection, myValidator, clock, cardanoCommands;
+        var level, client_bootstrap, config_builder, timer, config, client, connection, myValidator, clock;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -253,10 +253,7 @@ function main(argv) {
                     return [4 /*yield*/, walletServer.getNetworkClock()];
                 case 4:
                     clock = _a.sent();
-                    console.log(clock);
-                    cardanoCommands = new CardanoCommands_1.CardanoCommads();
-                    debugger;
-                    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen());
+                    console.log('Clock: ', clock);
                     return [2 /*return*/];
             }
         });

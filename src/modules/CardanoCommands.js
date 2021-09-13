@@ -1,11 +1,11 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.CardanoCommads = void 0;
 // import * as fs from 'fs';
 // Please add this dependency using npm install node-cmd but there is no @type definition for it
 var cmd = require('node-cmd');
 // Path to the cardano-cli binary or use the global one
-var CARDANO_CLI_PATH = "cardano-cli";
+// const CARDANO_CLI_PATH: string = "cardano-cli";
 // The `testnet` identifier number
 // const CARDANO_NETWORK_MAGIC: number = 1097911063;
 // The directory where we store our payment keys
@@ -16,14 +16,13 @@ var CARDANO_CLI_PATH = "cardano-cli";
 var CardanoCommads = /** @class */ (function () {
     function CardanoCommads() {
     }
-    CardanoCommads.prototype.keyGen = function () {
+    CardanoCommads.prototype.keyGen = function (CARDANO_CLI, CARDANO_KEYS_PATH) {
         var rawkeygen = cmd.runSync([
-            CARDANO_CLI_PATH,
+            CARDANO_CLI,
             "address", "key-gen",
-            "--verificatiton -key-file", "/home/luisr/receive-ada-sample/keys/payment.vkey",
-            "--signing-key-file", "/home/luisr/receive-ada-sample/keys/payment.skey"
+            "--verification-key-file", CARDANO_KEYS_PATH + "payment.vkey",
+            "--signing-key-file", CARDANO_KEYS_PATH + "payment.skey"
         ].join(" "));
-        debugger;
         return rawkeygen;
     };
     return CardanoCommads;

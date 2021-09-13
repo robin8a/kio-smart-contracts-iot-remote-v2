@@ -6,7 +6,7 @@
 import { mqtt, auth, http, io, iot } from 'aws-iot-device-sdk-v2';
 import { TextDecoder } from 'util';
 import { ZipCodeValidator } from "./modules/ZipCodeValidator";
-import { CardanoCommads } from "./modules/CardanoCommands";
+// import { CardanoCommads } from "./modules/CardanoCommands";
 
 const { WalletServer } = require('cardano-wallet-js');
 let walletServer = WalletServer.init('http://localhost:8090/v2');
@@ -138,7 +138,7 @@ yargs.command('*', false, (yargs: any) => {
 }, main).parse();
 
 async function execute_session(connection: mqtt.MqttClientConnection, argv: Args) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
         try {
             const decoder = new TextDecoder('utf8');
             const on_publish = async (topic: string, payload: ArrayBuffer, dup: boolean, qos: mqtt.QoS, retain: boolean) => {
@@ -241,6 +241,6 @@ async function main(argv: Args) {
     let clock = await walletServer.getNetworkClock()
     console.log('Clock: ',clock)
     
-    let cardanoCommands = new CardanoCommads()
-    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2));
+    // let cardanoCommands = new CardanoCommads()
+    // console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2));
 }

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.ZipCodeValidator = exports.numberRegexp = void 0;
 exports.numberRegexp = /^[0-9]+$/;
 var ZipCodeValidator = /** @class */ (function () {

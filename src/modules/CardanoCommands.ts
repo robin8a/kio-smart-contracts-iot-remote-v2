@@ -4,7 +4,7 @@ import { CardanoCommadsInterface } from "./CardanoCommandsInterface";
 const cmd: any = require('node-cmd');
 
 // Path to the cardano-cli binary or use the global one
-const CARDANO_CLI_PATH: string = "cardano-cli";
+// const CARDANO_CLI_PATH: string = "cardano-cli";
 // The `testnet` identifier number
 // const CARDANO_NETWORK_MAGIC: number = 1097911063;
 // The directory where we store our payment keys
