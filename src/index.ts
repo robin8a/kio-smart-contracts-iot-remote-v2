@@ -262,5 +262,5 @@ async function main(argv: Args) {
     }
     
     let cardanoCommands = new CardanoCommads()
-    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2.CARDANO_CLI,configCardanoCliV2.CARDANO_KEYS_PATH));
+    console.log('### cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2.CARDANO_CLI,configCardanoCliV2.CARDANO_KEYS_PATH));
 }
