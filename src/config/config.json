@@ -20,5 +20,10 @@
     },
     "local_files": {
         "write_aws_s3_path": "./images/"
+    },
+    "cardano_cli_v2":{
+        "CARDANO_CLI": "cardano-cli",
+        "CARDANO_NETWORK_MAGIC": 1097911063,
+        "CARDANO_KEYS_PATH": "/opt/cardano/cnode/priv/wallet/keys/"
     }
 }

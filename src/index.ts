@@ -29,8 +29,9 @@ let walletServer = WalletServer.init('http://localhost:8090/v2');
 // const credentials = require('./config/credentials.json')
 // const credentialsAWS = credentials['aws_credentials']
 // const credentialsPinata = credentials['pinata_credentials']
-// const config = require('./config/config.json')
-// const configCardanoCli = config['cardano_cli']
+import config from './config/config.json';
+
+
 // const configAWSIoTDevice = config['aws_iot_device']
 // const configLocalFiles = config['local_files']
 
@@ -241,5 +242,5 @@ async function main(argv: Args) {
     console.log('Clock: ',clock)
     
     let cardanoCommands = new CardanoCommads()
-    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen());
+    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2));
 }

@@ -1,3 +1,3 @@
 export interface CardanoCommadsInterface {
-    keyGen(): string;
+    keyGen(CARDANO_CLI: string, CARDANO_KEYS_PATH: string): string;
 }

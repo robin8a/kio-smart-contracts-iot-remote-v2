@@ -15,12 +15,12 @@ const CARDANO_CLI_PATH: string = "cardano-cli";
 
 export class CardanoCommads implements CardanoCommadsInterface {
 
-    keyGen() {
+    keyGen(CARDANO_CLI: string, CARDANO_KEYS_PATH: string) {
         const rawkeygen: any = cmd.runSync([
-            CARDANO_CLI_PATH,
+            CARDANO_CLI,
             "address", "key-gen",
-            "--verification-key-file", "/home/luisr/receive-ada-sample/keys/payment.vkey",
-            "--signing-key-file", "/home/luisr/receive-ada-sample/keys/payment.skey"
+            "--verification-key-file", CARDANO_KEYS_PATH+"payment.vkey",
+            "--signing-key-file", CARDANO_KEYS_PATH+"payment.skey"
         ].join(" "));
         return rawkeygen
     }
