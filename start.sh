@@ -13,7 +13,7 @@ printf "\nRunning pub/sub sample application...\n"
 # --ca-certificate=certs/kio-smart-contracts-iot-device/root-CA.crt \
 # --client-id=sdk-nodejs-e57c917f-032c-4778-8184-69116bc19f76
 
-node dist/index.js \
+node index.js \
 --endpoint az6wto8a6h0jn-ats.iot.us-east-1.amazonaws.com \
 --ca_file certs/root-CA.crt \
 --cert certs/kio-smart-contracts-iot-device.cert.pem \

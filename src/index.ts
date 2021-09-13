@@ -6,7 +6,7 @@
 import { mqtt, auth, http, io, iot } from 'aws-iot-device-sdk-v2';
 import { TextDecoder } from 'util';
 import { ZipCodeValidator } from "./modules/ZipCodeValidator";
-// import { CardanoCommads } from "./modules/CardanoCommands";
+import { CardanoCommads } from "./modules/CardanoCommands";
 
 const { WalletServer } = require('cardano-wallet-js');
 let walletServer = WalletServer.init('http://localhost:8090/v2');
@@ -30,6 +30,8 @@ let walletServer = WalletServer.init('http://localhost:8090/v2');
 // const credentialsAWS = credentials['aws_credentials']
 // const credentialsPinata = credentials['pinata_credentials']
 import config from './config/config.json';
+const configCardanoCliV2 = config.cardano_cli_v2;
+
 
 
 // const configAWSIoTDevice = config['aws_iot_device']
@@ -241,6 +243,6 @@ async function main(argv: Args) {
     let clock = await walletServer.getNetworkClock()
     console.log('Clock: ',clock)
     
-    // let cardanoCommands = new CardanoCommads()
-    // console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2));
+    let cardanoCommands = new CardanoCommads()
+    console.log('cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2.CARDANO_CLI,configCardanoCliV2.CARDANO_KEYS_PATH));
 }
