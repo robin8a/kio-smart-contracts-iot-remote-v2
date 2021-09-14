@@ -18,7 +18,6 @@ export class CardanoCommads implements CardanoCommadsInterface {
     
     keyGen(CARDANO_CLI: string, CARDANO_KEYS_PATH: string) {
         this.configureLogger()
-        logger.level = "debug";
 
         try {
             
@@ -28,10 +27,10 @@ export class CardanoCommads implements CardanoCommadsInterface {
                 "--verification-key-file", CARDANO_KEYS_PATH+"payment.vkey",
                 "--signing-key-file", CARDANO_KEYS_PATH+"payment.skey"
             ].join(" "));
-            logger.level = "debug";
-            logger.debug(rawkeygen);
+            // logger.level = "debug";
+            // logger.debug(rawkeygen);
             return rawkeygen
-            
+
         } catch (error) {
             logger.level = "debug";
             logger.debug(error);

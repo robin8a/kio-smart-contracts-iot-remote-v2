@@ -256,9 +256,9 @@ async function main(argv: Args) {
 
     try {
         let clock = await walletServer.getNetworkClock()    
-        console.log('Clock: ',clock)
+        console.log('### walletServer.getNetworkClock(): Clock: ', clock)
     } catch (error) {
-        console.log('error: ', error)
+        console.log('### walletServer.getNetworkClock(): error: ', error)
     }
     
     let cardanoCommands = new CardanoCommads()
