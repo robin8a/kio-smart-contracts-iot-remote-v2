@@ -177,7 +177,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 
                 if (message.Command_From_UI_Query_Tip !== undefined) {
                     logger.debug('## device.on message Command_From_UI_Query_Tip');
-                    let command_from_ui_query_tip_result = cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI)
+                    let command_from_ui_query_tip_result = cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI, configCardanoCliV2.CARDANO_NETWORK_MAGIC)
                     logger.debug('## device.on message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
                     const publish = async () => {
                         // const msg = {

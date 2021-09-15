@@ -39,12 +39,12 @@ export class CardanoCommads implements CardanoCommadsInterface {
         
     }
 
-    queryTip(CARDANO_CLI: string) {
+    queryTip(CARDANO_CLI: string, CARDANO_NETWORK_MAGIC: number) {
         this.configureLogger()
         try {
             const rawQueryTipResult: any = cmd.runSync([
                 CARDANO_CLI,
-                "query", "tip"
+                "query", "tip", "--testnet-magic", CARDANO_NETWORK_MAGIC
             ].join(" "));
             return rawQueryTipResult
         } catch (error) {
