@@ -38,4 +38,19 @@ export class CardanoCommads implements CardanoCommadsInterface {
         }
         
     }
+
+    queryTip(CARDANO_CLI: string) {
+        this.configureLogger()
+        try {
+            const rawQueryTipResult: any = cmd.runSync([
+                CARDANO_CLI,
+                "query", "tip"
+            ].join(" "));
+            return rawQueryTipResult
+        } catch (error) {
+            logger.level = "debug"
+            logger.debug(error)
+            return error
+        }
+    }
 }

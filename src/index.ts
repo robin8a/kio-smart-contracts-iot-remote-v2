@@ -153,33 +153,59 @@ yargs.command('*', false, (yargs: any) => {
         .showHelpOnFail(false)
 }, main).parse();
 
+
+
 async function execute_session(connection: mqtt.MqttClientConnection, argv: Args) {
+    
     return new Promise<void>(async (resolve, reject) => {
         try {
             const decoder = new TextDecoder('utf8');
+            
+            configure({
+                appenders: { cardano_commands: { type: "file", filename: "./logs/cardano_commands.log" } },
+                categories: { default: { appenders: ["cardano_commands"], level: "error" } }
+            });
+            
             const on_publish = async (topic: string, payload: ArrayBuffer, dup: boolean, qos: mqtt.QoS, retain: boolean) => {
                 const json = decoder.decode(payload);
-                console.log(`Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`);
+                console.log(`# Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`);
                 console.log(json);
                 const message = JSON.parse(json);
-                if (message.sequence == argv.count) {
-                    resolve();
-                }
+                let cardanoCommands = new CardanoCommads()
+                logger.level = "debug";
+                debugger
+                
+                if (message.Command_From_UI_Query_Tip !== undefined) {
+                    logger.debug('## device.on message Command_From_UI_Query_Tip');
+                    let command_from_ui_query_tip_result = cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI)
+                    console.log('## device.on message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
+                    const publish = async () => {
+                        // const msg = {
+                        //     message: argv.message,
+                        //     sequence: op_idx + 1,
+                        // };
+                        const json = JSON.stringify(command_from_ui_query_tip_result);
+                        connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                    }
+                    setTimeout(publish, 1000);
+                    }
+                resolve();
+                
             }
 
             await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
 
-            for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
-                const publish = async () => {
-                    const msg = {
-                        message: argv.message,
-                        sequence: op_idx + 1,
-                    };
-                    const json = JSON.stringify(msg);
-                    connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
-                }
-                setTimeout(publish, op_idx * 1000);
-            }
+            // for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
+            //     const publish = async () => {
+            //         const msg = {
+            //             message: argv.message,
+            //             sequence: op_idx + 1,
+            //         };
+            //         const json = JSON.stringify(msg);
+            //         connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+            //     }
+            //     setTimeout(publish, op_idx * 1000);
+            // }
         }
         catch (error) {
             reject(error);
@@ -231,24 +257,6 @@ async function main(argv: Args) {
     // Allow node to die if the promise above resolved
     clearTimeout(timer);
 
-    
-
-    // const dir = path.join(os.homedir(), configCardanoCli.cardano_node);
-    // const shelleyPath = path.join(
-    //     os.homedir(),
-    //     configCardanoCli.cardano_node,
-    //     configCardanoCli.testnet_shelley_genesis_json
-    // );
-
-    // const cardanocliJs = new CardanocliJs({
-    // network: configCardanoCli.network,
-    // dir: dir,
-    // shelleyGenesisPath: shelleyPath,
-    // socketPath: configCardanoCli.socketPath,
-    // });
-
-    // cardanocliJs.wallet('W0107').balance();
-
     let myValidator = new ZipCodeValidator()
     if (myValidator.isAcceptable('33140')) {
         console.log('Zipcode is valid')
@@ -261,6 +269,6 @@ async function main(argv: Args) {
         console.log('### walletServer.getNetworkClock(): error: ', error)
     }
     
-    let cardanoCommands = new CardanoCommads()
-    console.log('### cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2.CARDANO_CLI,configCardanoCliV2.CARDANO_KEYS_PATH));
+    // let cardanoCommands = new CardanoCommads()
+    // console.log('### cardanoCommands.keyGen: ', cardanoCommands.keyGen(configCardanoCliV2.CARDANO_CLI,configCardanoCliV2.CARDANO_KEYS_PATH));
 }
