@@ -175,12 +175,13 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 logger.level = "debug";
                 
                 if (message.Command_From_UI_Query_Tip !== undefined) {
-                    logger.debug('## device.on message Command_From_UI_Query_Tip');
-                    let command_from_ui_query_tip_result = cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI, configCardanoCliV2.CARDANO_NETWORK_MAGIC)
-                    logger.debug('## device.on message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
+                    logger.debug('## on_publish message Command_From_UI_Query_Tip');
+                    let command_from_ui_query_tip_result = await cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI, configCardanoCliV2.CARDANO_NETWORK_MAGIC)
+                    logger.debug('## on_publish message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
                     try {
                         const publish = async () => {
                             const json = JSON.stringify(command_from_ui_query_tip_result);
+                            debugger
                             connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
                         }
                         setTimeout(publish, 1000);

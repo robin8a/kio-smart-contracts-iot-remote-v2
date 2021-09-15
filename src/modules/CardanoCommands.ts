@@ -39,21 +39,23 @@ export class CardanoCommads implements CardanoCommadsInterface {
         
     }
 
-    queryTip(CARDANO_CLI: string, CARDANO_NETWORK_MAGIC: number) {
-        this.configureLogger()
-        logger.level = "debug";
-        logger.debug('# calling queryTip ...');
-        try {
-            const rawQueryTipResult: any = cmd.runSync([
-                CARDANO_CLI,
-                "query", "tip", "--testnet-magic", CARDANO_NETWORK_MAGIC
-            ].join(" "));
-            
-            logger.debug(rawQueryTipResult);
-            return rawQueryTipResult
-        } catch (error) {
-            logger.debug('## error on cmd.runSync QueryTip', error)
-            return error
-        }
+    queryTip(CARDANO_CLI: string, CARDANO_NETWORK_MAGIC: number)  {
+        return new Promise<string>((resolve) => {
+            this.configureLogger()
+            logger.level = "debug";
+            logger.debug('# calling queryTip ...');
+            try {
+                const rawQueryTipResult: any = cmd.runSync([
+                    CARDANO_CLI,
+                    "query", "tip", "--testnet-magic", CARDANO_NETWORK_MAGIC
+                ].join(" "));
+                
+                logger.debug(rawQueryTipResult);
+                resolve(rawQueryTipResult)
+            } catch (error) {
+                logger.debug('## error on cmd.runSync QueryTip', error)
+                return error
+            }
+        });
     }
 }
