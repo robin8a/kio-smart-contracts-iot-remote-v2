@@ -7,6 +7,7 @@ import { mqtt, auth, http, io, iot } from 'aws-iot-device-sdk-v2';
 import { TextDecoder } from 'util';
 import { ZipCodeValidator } from "./modules/ZipCodeValidator";
 import { CardanoCommads } from "./modules/CardanoCommands";
+import { Util } from "./modules/Util";
 
 // const { WalletServer } = require('cardano-wallet-js');
 // let walletServer = WalletServer.init('http://localhost:8090/v2');
@@ -19,9 +20,6 @@ configure({
     appenders: { cheese: { type: "file", filename: "cheese.log" } },
     categories: { default: { appenders: ["cheese"], level: "error" } }
 });
-
-// File System
-import * as fs from 'fs';
 
 
 // AWS
@@ -212,12 +210,17 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
 }
 
 async function main(argv: Args) {
+
+    let util = new Util()
+
     // Test
-    let isOnMessagesUUIDResult = await isOnMessagesUUID('uuuu-iiii-dddd')
-    if (isOnMessagesUUIDResult) {
-        console.log('ID found it')
-    } else {
-        console.log('ID NOT found it')
+    let isOnMessagesUUIDResult = await util.isOnMessagesUUID('uuuu-iiii-dddd')
+    if (isOnMessagesUUIDResult !== null) {
+        if (isOnMessagesUUIDResult) {
+            console.log('ID found it')
+        } else {
+            console.log('ID NOT found it')
+        }
     }
 
     if (argv.verbosity != 'none') {
@@ -280,29 +283,3 @@ async function main(argv: Args) {
 }
 
 
-async function isOnMessagesUUID(pUUID: string) {
-    let result = false
-    configure({
-        appenders: { cardano_commands: { type: "file", filename: "./logs/cardano_commands.log" } },
-        categories: { default: { appenders: ["cardano_commands"], level: "error" } }
-    });
-
-    logger.level = "debug";
-    logger.debug('#####')
-    logger.debug('# isOnMessagesUUID')
-    
-    fs.readFile('./data/messages_uuid.log', function (err, data) {
-        if (err) throw err;
-        if(data.includes(pUUID)){
-            logger.debug('## ID found it: ', pUUID)
-            return true
-        } else {
-            logger.debug('## ID NOT found it: ', pUUID)
-            return false
-        }
-    });
-
-    logger.debug('#####')
-    return false
-    
-}
