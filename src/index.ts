@@ -213,7 +213,12 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
 
 async function main(argv: Args) {
     // Test
-    await isOnMessagesUUID('uuuu-iiii-dddd')
+    let isOnMessagesUUIDResult = await isOnMessagesUUID('uuuu-iiii-dddd')
+    if (isOnMessagesUUIDResult) {
+        console.log('ID found it')
+    } else {
+        console.log('ID NOT found it')
+    }
 
     if (argv.verbosity != 'none') {
         const level : io.LogLevel = parseInt(io.LogLevel[argv.verbosity.toUpperCase()]);
@@ -276,6 +281,7 @@ async function main(argv: Args) {
 
 
 async function isOnMessagesUUID(pUUID: string) {
+    let result = false
     configure({
         appenders: { cardano_commands: { type: "file", filename: "./logs/cardano_commands.log" } },
         categories: { default: { appenders: ["cardano_commands"], level: "error" } }
@@ -288,9 +294,15 @@ async function isOnMessagesUUID(pUUID: string) {
     fs.readFile('./data/messages_uuid.log', function (err, data) {
         if (err) throw err;
         if(data.includes(pUUID)){
-            logger.debug('## ID found it: ', pUUID, data)
+            logger.debug('## ID found it: ', pUUID)
+            return true
+        } else {
+            logger.debug('## ID NOT found it: ', pUUID)
+            return false
         }
     });
 
     logger.debug('#####')
+    return false
+    
 }
