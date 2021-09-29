@@ -173,18 +173,19 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 let util = new Util()
 
                 if (message.Command_From_UI_Query_Tip !== undefined) {
+                    debugger
                     // Test
-                    let isOnMessagesUUIDResult = await util.isOnMessagesUUID(message.Command_From_UI_Query_Tip.messageID)
+                    let isOnMessagesUUIDResult = await util.isOnMessagesUUID(message.Command_From_UI_Query_Tip[0].messageID)
 
                     if (isOnMessagesUUIDResult !== null) {
                         if (isOnMessagesUUIDResult) {
                             console.log('ID found it')
-                            logger.debug('## ID:',message.Command_From_UI_Query_Tip.messageID, ' found it')
+                            logger.debug('## ID:',message.Command_From_UI_Query_Tip[0].messageID, ' found it')
                         } else {
-                            logger.debug('## ID:',message.Command_From_UI_Query_Tip.messageID, ' NOT found it')
-                            logger.debug('## on_publish message Command_From_UI_Query_Tip');
+                            logger.debug('## ID:',message.Command_From_UI_Query_Tip[0].messageID, ' NOT found it')
+                            logger.debug('## on_publish message Command_From_UI_Query_Tip[0]');
                             let command_from_ui_query_tip_result = await cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI, configCardanoCliV2.CARDANO_NETWORK_MAGIC)
-                            logger.debug('## on_publish message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
+                            logger.debug('## on_publish message Command_From_UI_Query_Tip[0] command_from_ui_result: ', command_from_ui_query_tip_result);
                             try {
                                 const publish = async () => {
                                     const json = JSON.stringify(command_from_ui_query_tip_result);
@@ -198,7 +199,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                             }
                                 }
                             }
-                            util.writeMessagesUUID(message.Command_From_UI_Query_Tip.messageID)
+                            util.writeMessagesUUID(message.Command_From_UI_Query_Tip[0].messageID)
                 }
             }
 
