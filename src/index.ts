@@ -191,7 +191,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                                     const json = JSON.stringify(command_from_ui_query_tip_result);
                                     debugger
                                     // connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
-                                    connection.publish('test/topic', JSON.stringify({message: 'hola'}), mqtt.QoS.AtLeastOnce)
+                                    // connection.publish('test/topic', JSON.stringify({message: 'hola'}), mqtt.QoS.AtLeastOnce)
                                 }
                                 setTimeout(publish, 1000);
                                 resolve();    
@@ -206,17 +206,17 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
 
             await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
 
-            // for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
-            //     const publish = async () => {
-            //         const msg = {
-            //             message: argv.message,
-            //             sequence: op_idx + 1,
-            //         };
-            //         const json = JSON.stringify(msg);
-            //         connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
-            //     }
-            //     setTimeout(publish, op_idx * 1000);
-            // }
+            for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
+                const publish = async () => {
+                    const msg = {
+                        message: argv.message,
+                        sequence: op_idx + 1,
+                    };
+                    const json = JSON.stringify(msg);
+                    connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                }
+                setTimeout(publish, op_idx * 1000);
+            }
         }
         catch (error) {
             reject(error);
@@ -269,10 +269,10 @@ async function main(argv: Args) {
     // Allow node to die if the promise above resolved
     clearTimeout(timer);
 
-    let myValidator = new ZipCodeValidator()
-    if (myValidator.isAcceptable('33140')) {
-        console.log('Zipcode is valid')
-    }
+    // let myValidator = new ZipCodeValidator()
+    // if (myValidator.isAcceptable('33140')) {
+    //     console.log('Zipcode is valid')
+    // }
 
     // try {
     //     let clock = await walletServer.getNetworkClock()    
