@@ -190,7 +190,8 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                                 const publish = async () => {
                                     const json = JSON.stringify(command_from_ui_query_tip_result);
                                     debugger
-                                    connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                                    // connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                                    connection.publish('test/topic', JSON.stringify({message: 'hola'}), mqtt.QoS.AtLeastOnce)
                                 }
                                 setTimeout(publish, 1000);
                                 resolve();    
