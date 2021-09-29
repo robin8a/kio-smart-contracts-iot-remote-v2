@@ -37,4 +37,27 @@ export class Util implements UtilInterface {
         });
     }
 
+    writeMessagesUUID(pUUID: string)  {
+        return new Promise<string>((resolve) => {
+            configure({
+                appenders: { cardano_commands: { type: "file", filename: "./logs/cardano_commands.log" } },
+                categories: { default: { appenders: ["cardano_commands"], level: "error" } }
+            });
+        
+            logger.level = "debug";
+            logger.debug('#####')
+            logger.debug('# writeMessagesUUID')
+
+            fs.writeFile("./data/messages_uuid.log", pUUID, function(err) {
+                if(err) {
+                    logger.debug('## error: ', err)
+                    resolve(err.toString());
+                }
+                logger.debug('## UUID message was saved!')
+                resolve('## UUID message was saved!')
+            }); 
+
+            logger.debug('#####')
+        });
+    }
 }

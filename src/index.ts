@@ -170,22 +170,35 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 const message = JSON.parse(json);
                 let cardanoCommands = new CardanoCommads()
                 logger.level = "debug";
-                
+                let util = new Util()
+
                 if (message.Command_From_UI_Query_Tip !== undefined) {
-                    logger.debug('## on_publish message Command_From_UI_Query_Tip');
-                    let command_from_ui_query_tip_result = await cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI, configCardanoCliV2.CARDANO_NETWORK_MAGIC)
-                    logger.debug('## on_publish message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
-                    try {
-                        const publish = async () => {
-                            const json = JSON.stringify(command_from_ui_query_tip_result);
-                            debugger
-                            connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
-                        }
-                        setTimeout(publish, 1000);
-                        resolve();    
-                    } catch (error) {
-                        logger.debug('## error on_publish: ', error)
-                    }
+                    // Test
+                    let isOnMessagesUUIDResult = await util.isOnMessagesUUID(message.Command_From_UI_Query_Tip.messageID)
+
+                    if (isOnMessagesUUIDResult !== null) {
+                        if (isOnMessagesUUIDResult) {
+                            console.log('ID found it')
+                            logger.debug('## ID:',message.Command_From_UI_Query_Tip.messageID, ' found it')
+                        } else {
+                            logger.debug('## ID:',message.Command_From_UI_Query_Tip.messageID, ' NOT found it')
+                            logger.debug('## on_publish message Command_From_UI_Query_Tip');
+                            let command_from_ui_query_tip_result = await cardanoCommands.queryTip(configCardanoCliV2.CARDANO_CLI, configCardanoCliV2.CARDANO_NETWORK_MAGIC)
+                            logger.debug('## on_publish message Command_From_UI_Query_Tip command_from_ui_result: ', command_from_ui_query_tip_result);
+                            try {
+                                const publish = async () => {
+                                    const json = JSON.stringify(command_from_ui_query_tip_result);
+                                    debugger
+                                    connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                                }
+                                setTimeout(publish, 1000);
+                                resolve();    
+                            } catch (error) {
+                                logger.debug('## error on_publish: ', error)
+                            }
+                                }
+                            }
+                            util.writeMessagesUUID(message.Command_From_UI_Query_Tip.messageID)
                 }
             }
 
@@ -210,18 +223,6 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
 }
 
 async function main(argv: Args) {
-
-    let util = new Util()
-
-    // Test
-    let isOnMessagesUUIDResult = await util.isOnMessagesUUID('uuuu-iiii-dddd')
-    if (isOnMessagesUUIDResult !== null) {
-        if (isOnMessagesUUIDResult) {
-            console.log('ID found it')
-        } else {
-            console.log('ID NOT found it')
-        }
-    }
 
     if (argv.verbosity != 'none') {
         const level : io.LogLevel = parseInt(io.LogLevel[argv.verbosity.toUpperCase()]);
