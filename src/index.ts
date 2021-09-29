@@ -188,9 +188,15 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                             // logger.debug('## on_publish message Command_From_UI_Query_Tip[0] command_from_ui_result: ', command_from_ui_query_tip_result);
                             
                             const publish = async () => {
-                                const json = JSON.stringify(command_from_ui_query_tip_result);
-                                debugger
+                                const msg = {
+                                    message: argv.message,
+                                    sequence: 1,
+                                };
+                                const json = JSON.stringify(msg);
                                 connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                                // const json = JSON.stringify(command_from_ui_query_tip_result);
+                                
+                                // connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
                                 // connection.publish('test/topic', JSON.stringify({message: 'hola'}), mqtt.QoS.AtLeastOnce)
                             }
                             setTimeout(publish, 1000);
