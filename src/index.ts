@@ -171,7 +171,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 let cardanoCommands = new CardanoCommads()
                 logger.level = "debug";
                 let util = new Util()
-                await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
+                
 
                 if (message.Command_From_UI_Query_Tip !== undefined) {
                     debugger
@@ -209,7 +209,7 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 }
             }
 
-            
+            await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
 
             for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                 const publish = async () => {
