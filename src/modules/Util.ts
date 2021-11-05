@@ -22,7 +22,6 @@ export class Util implements UtilInterface {
             logger.debug('# isOnMessagesUUID')
             
             fs.readFile('./data/messages_uuid.log', 'utf8', function (err, data) {
-                debugger
                 if (err) throw err;
                 if(data.includes(pUUID)){
                     logger.debug('## ID found it: ', pUUID)

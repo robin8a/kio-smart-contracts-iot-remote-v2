@@ -174,7 +174,6 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 
 
                 if (message.Command_From_UI_Query_Tip !== undefined) {
-                    debugger
                     // Test
                     let isOnMessagesUUIDResult = await util.isOnMessagesUUID(message.Command_From_UI_Query_Tip[0].messageID)
 
